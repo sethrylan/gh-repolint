@@ -92,15 +92,16 @@ func (o *Orchestrator) Fix(ctx context.Context, issues []checks.Issue) ([]Result
 		}
 
 		result, err := fixer.Fix(ctx, issue)
-		if err != nil {
+		switch {
+		case err != nil:
 			results = append(results, Result{
 				Issue: issue,
 				Fixed: false,
 				Error: err,
 			})
-		} else if result != nil {
+		case result != nil:
 			results = append(results, *result)
-		} else {
+		default:
 			results = append(results, Result{
 				Issue: issue,
 				Fixed: false,

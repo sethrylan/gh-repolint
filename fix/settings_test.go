@@ -1,4 +1,4 @@
-package fix
+package fix_test
 
 import (
 	"context"
@@ -6,6 +6,7 @@ import (
 
 	"github.com/sethrylan/gh-repolint/checks"
 	"github.com/sethrylan/gh-repolint/config"
+	"github.com/sethrylan/gh-repolint/fix"
 )
 
 func TestSettingsFixer_Fix_NilMergeConfig(t *testing.T) {
@@ -27,7 +28,7 @@ func TestSettingsFixer_Fix_NilMergeConfig(t *testing.T) {
 			cfg := &config.SettingsConfig{
 				Merge: nil, // This would cause a panic without the nil check
 			}
-			fixer := NewSettingsFixer(nil, cfg, false)
+			fixer := fix.NewSettingsFixer(nil, cfg, false)
 
 			issue := checks.Issue{
 				Type:    checks.CheckTypeSettings,
@@ -69,7 +70,7 @@ func TestSettingsFixer_Fix_NilMergeConfig(t *testing.T) {
 
 func TestSettingsFixer_Fix_MissingSettingData(t *testing.T) {
 	cfg := &config.SettingsConfig{}
-	fixer := NewSettingsFixer(nil, cfg, false)
+	fixer := fix.NewSettingsFixer(nil, cfg, false)
 
 	issue := checks.Issue{
 		Type:    checks.CheckTypeSettings,
@@ -101,7 +102,7 @@ func TestSettingsFixer_Fix_MissingSettingData(t *testing.T) {
 
 func TestSettingsFixer_Fix_UnknownSetting(t *testing.T) {
 	cfg := &config.SettingsConfig{}
-	fixer := NewSettingsFixer(nil, cfg, false)
+	fixer := fix.NewSettingsFixer(nil, cfg, false)
 
 	issue := checks.Issue{
 		Type:    checks.CheckTypeSettings,
