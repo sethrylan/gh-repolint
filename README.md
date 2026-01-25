@@ -13,7 +13,39 @@ gh extension install sethrylan/gh-repolint
 ```bash
 # Run all checks on the current repository
 gh repolint
+```
 
+<details>
+  <summary>Example output</summary>
+
+```sh
+$ gh repolint
+Repository validation failed:
+  [settings] Issues is enabled but should be disabled (fixable)
+  [settings] Wiki is enabled but should be disabled (fixable)
+  [settings] Projects is enabled but should be disabled (fixable)
+  [settings] Actions can approve PRs is disabled but should be enabled (fixable)
+  [settings] Merge commits are allowed but should be disallowed (fixable)
+  [settings] Rebase merge is allowed but should be disallowed (fixable)
+  [settings] Auto-merge is disabled but should be enabled (fixable)
+  [settings] Delete branch on merge is disabled but should be enabled (fixable)
+  [settings] Dependabot alerts is disabled but should be enabled (fixable)
+  [settings] Dependabot security updates is disabled but should be enabled (fixable)
+  [rulesets(main)] Ruleset 'main' does not exist (fixable)
+  [files(.github/dependabot.yml)] File '.github/dependabot.yml' does not exist (fixable)
+  [files(.github/workflows/ci.yml)] File '.github/workflows/ci.yml' does not exist (fixable)
+  [files(.github/workflows/conventional-commits.yml)] File '.github/workflows/conventional-commits.yml' does not exist (fixable)
+  [files(.github/workflows/dependabot-auto.yml)] File '.github/workflows/dependabot-auto.yml' does not exist (fixable)
+  [files(LICENSE)] File 'LICENSE' does not exist (fixable)
+  [files(.golangci.yml)] File '.golangci.yml' does not exist (fixable)
+
+Run with --fix to automatically fix 17 issue(s)
+Error: found 17 issue(s)
+```
+
+</details>
+
+```bash
 # Auto-fix issues where possible
 gh repolint --fix
 
