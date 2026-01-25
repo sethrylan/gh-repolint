@@ -60,16 +60,34 @@ func (f *SettingsFixer) Fix(ctx context.Context, issue checks.Issue) (*Result, e
 	case "discussions":
 		req.HasDiscussions = f.config.Discussions
 	case "merge_commit":
+		if f.config.Merge == nil {
+			return failedResult(issue, errors.New("merge settings not configured"))
+		}
 		req.AllowMergeCommit = f.config.Merge.AllowMergeCommit
 	case "squash_merge":
+		if f.config.Merge == nil {
+			return failedResult(issue, errors.New("merge settings not configured"))
+		}
 		req.AllowSquashMerge = f.config.Merge.AllowSquashMerge
 	case "rebase_merge":
+		if f.config.Merge == nil {
+			return failedResult(issue, errors.New("merge settings not configured"))
+		}
 		req.AllowRebaseMerge = f.config.Merge.AllowRebaseMerge
 	case "auto_merge":
+		if f.config.Merge == nil {
+			return failedResult(issue, errors.New("merge settings not configured"))
+		}
 		req.AllowAutoMerge = f.config.Merge.AllowAutoMerge
 	case "delete_branch_on_merge":
+		if f.config.Merge == nil {
+			return failedResult(issue, errors.New("merge settings not configured"))
+		}
 		req.DeleteBranchOnMerge = f.config.Merge.DeleteBranchOnMerge
 	case "update_branch":
+		if f.config.Merge == nil {
+			return failedResult(issue, errors.New("merge settings not configured"))
+		}
 		req.AllowUpdateBranch = f.config.Merge.AlwaysSuggestUpdatingPullRequestBranches
 	default:
 		return failedResult(issue, fmt.Errorf("unknown setting: %s", setting))

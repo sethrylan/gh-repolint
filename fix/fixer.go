@@ -98,8 +98,14 @@ func (o *Orchestrator) Fix(ctx context.Context, issues []checks.Issue) ([]Result
 				Fixed: false,
 				Error: err,
 			})
-		} else {
+		} else if result != nil {
 			results = append(results, *result)
+		} else {
+			results = append(results, Result{
+				Issue: issue,
+				Fixed: false,
+				Error: errors.New("fixer returned nil result"),
+			})
 		}
 	}
 
