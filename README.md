@@ -88,6 +88,7 @@ checks:
     wiki: false
     projects: false
     allow_actions_to_approve_prs: true
+    pull_request_creation_policy: "collaborators"
     default_branch: "main"
     merge:
       allow_merge_commit: false
@@ -132,6 +133,7 @@ Validates repository settings including:
 - Merge settings (allowed merge types, auto-merge, branch deletion)
 - Default branch name pattern matching
 - Actions workflow approval permissions
+- Pull request creation policy (all users or collaborators only)
 - Dependabot alerts and security updates
 
 ### Actions Check
