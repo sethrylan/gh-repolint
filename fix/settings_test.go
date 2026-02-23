@@ -1,7 +1,6 @@
 package fix_test
 
 import (
-	"context"
 	"testing"
 
 	"github.com/sethrylan/gh-repolint/checks"
@@ -41,7 +40,7 @@ func TestSettingsFixer_Fix_NilMergeConfig(t *testing.T) {
 			}
 
 			// This should not panic
-			result, err := fixer.Fix(context.Background(), issue)
+			result, err := fixer.Fix(t.Context(), issue)
 
 			// Should return a result with error, not a Go error
 			if err != nil {
@@ -80,7 +79,7 @@ func TestSettingsFixer_Fix_MissingSettingData(t *testing.T) {
 		Data:    map[string]string{}, // Missing "setting" key
 	}
 
-	result, err := fixer.Fix(context.Background(), issue)
+	result, err := fixer.Fix(t.Context(), issue)
 
 	if err != nil {
 		t.Fatalf("Fix() returned unexpected error: %v", err)
@@ -114,7 +113,7 @@ func TestSettingsFixer_Fix_UnknownSetting(t *testing.T) {
 		},
 	}
 
-	result, err := fixer.Fix(context.Background(), issue)
+	result, err := fixer.Fix(t.Context(), issue)
 
 	if err != nil {
 		t.Fatalf("Fix() returned unexpected error: %v", err)
