@@ -440,7 +440,7 @@ func promptSettingsConfig(p *prompter.Prompter) (*config.SettingsConfig, error) 
 	cfg.Dependabot.SecurityUpdates = &securityUpdates
 
 	// Pull request creation policy
-	prPolicies := []string{"all", "collaborators"}
+	prPolicies := []string{"all", "collaborators_only"}
 	prPolicyIdx, err := p.Select("Pull request creation policy:", "all", prPolicies)
 	if err != nil {
 		return nil, err

@@ -88,7 +88,7 @@ checks:
     wiki: false
     projects: false
     allow_actions_to_approve_prs: true
-    pull_request_creation_policy: "collaborators"
+    pull_request_creation_policy: "collaborators_only"
     default_branch: "main"
     merge:
       allow_merge_commit: false

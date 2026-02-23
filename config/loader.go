@@ -235,10 +235,10 @@ func parseConfigBytes(data []byte) (*Config, error) {
 func validateConfig(cfg *Config) error {
 	if cfg.Checks.Settings != nil && cfg.Checks.Settings.PullRequestCreationPolicy != "" {
 		switch cfg.Checks.Settings.PullRequestCreationPolicy {
-		case "all", "collaborators":
+		case "all", "collaborators_only":
 			// valid
 		default:
-			return fmt.Errorf("invalid pull_request_creation_policy: %q (must be \"all\" or \"collaborators\")",
+			return fmt.Errorf("invalid pull_request_creation_policy: %q (must be \"all\" or \"collaborators_only\")",
 				cfg.Checks.Settings.PullRequestCreationPolicy)
 		}
 	}
