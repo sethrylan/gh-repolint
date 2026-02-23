@@ -10,7 +10,8 @@ type Repository struct {
 	HasWiki             bool   `json:"has_wiki"`
 	HasProjects         bool   `json:"has_projects"`
 	HasDiscussions      bool   `json:"has_discussions"`
-	AllowMergeCommit    bool   `json:"allow_merge_commit"`
+	PullRequestCreationPolicy string `json:"pull_request_creation_policy"`
+	AllowMergeCommit          bool   `json:"allow_merge_commit"`
 	AllowSquashMerge    bool   `json:"allow_squash_merge"`
 	AllowRebaseMerge    bool   `json:"allow_rebase_merge"`
 	AllowAutoMerge      bool   `json:"allow_auto_merge"`
@@ -188,8 +189,9 @@ type RepoUpdateRequest struct {
 	HasWiki             *bool `json:"has_wiki,omitempty"`
 	HasProjects         *bool `json:"has_projects,omitempty"`
 	HasDiscussions      *bool `json:"has_discussions,omitempty"`
-	AllowMergeCommit    *bool `json:"allow_merge_commit,omitempty"`
-	AllowSquashMerge    *bool `json:"allow_squash_merge,omitempty"`
+	PullRequestCreationPolicy *string `json:"pull_request_creation_policy,omitempty"`
+	AllowMergeCommit          *bool   `json:"allow_merge_commit,omitempty"`
+	AllowSquashMerge          *bool   `json:"allow_squash_merge,omitempty"`
 	AllowRebaseMerge    *bool `json:"allow_rebase_merge,omitempty"`
 	AllowAutoMerge      *bool `json:"allow_auto_merge,omitempty"`
 	DeleteBranchOnMerge *bool `json:"delete_branch_on_merge,omitempty"`

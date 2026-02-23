@@ -20,9 +20,10 @@ type SettingsConfig struct {
 	Wiki                     *bool                     `yaml:"wiki,omitempty"`
 	Projects                 *bool                     `yaml:"projects,omitempty"`
 	Discussions              *bool                     `yaml:"discussions,omitempty"`
-	AllowActionsToApprovePRs *bool                     `yaml:"allow_actions_to_approve_prs,omitempty"`
-	Merge                    *MergeConfig              `yaml:"merge,omitempty"`
-	DefaultBranch            string                    `yaml:"default_branch,omitempty"`
+	AllowActionsToApprovePRs   *bool                     `yaml:"allow_actions_to_approve_prs,omitempty"`
+	PullRequestCreationPolicy string                    `yaml:"pull_request_creation_policy,omitempty"`
+	Merge                     *MergeConfig              `yaml:"merge,omitempty"`
+	DefaultBranch             string                    `yaml:"default_branch,omitempty"`
 	Dependabot               *DependabotSettingsConfig `yaml:"dependabot,omitempty"`
 }
 

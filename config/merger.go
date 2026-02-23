@@ -41,14 +41,15 @@ func mergeSettingsConfig(owner, repo *SettingsConfig) *SettingsConfig {
 	}
 
 	result := &SettingsConfig{
-		Issues:                   mergeBoolPtr(owner.Issues, repo.Issues),
-		Wiki:                     mergeBoolPtr(owner.Wiki, repo.Wiki),
-		Projects:                 mergeBoolPtr(owner.Projects, repo.Projects),
-		Discussions:              mergeBoolPtr(owner.Discussions, repo.Discussions),
-		AllowActionsToApprovePRs: mergeBoolPtr(owner.AllowActionsToApprovePRs, repo.AllowActionsToApprovePRs),
-		DefaultBranch:            mergeString(owner.DefaultBranch, repo.DefaultBranch),
-		Merge:                    mergeMergeConfig(owner.Merge, repo.Merge),
-		Dependabot:               mergeDependabotSettingsConfig(owner.Dependabot, repo.Dependabot),
+		Issues:                    mergeBoolPtr(owner.Issues, repo.Issues),
+		Wiki:                      mergeBoolPtr(owner.Wiki, repo.Wiki),
+		Projects:                  mergeBoolPtr(owner.Projects, repo.Projects),
+		Discussions:               mergeBoolPtr(owner.Discussions, repo.Discussions),
+		AllowActionsToApprovePRs:  mergeBoolPtr(owner.AllowActionsToApprovePRs, repo.AllowActionsToApprovePRs),
+		PullRequestCreationPolicy: mergeString(owner.PullRequestCreationPolicy, repo.PullRequestCreationPolicy),
+		DefaultBranch:             mergeString(owner.DefaultBranch, repo.DefaultBranch),
+		Merge:                     mergeMergeConfig(owner.Merge, repo.Merge),
+		Dependabot:                mergeDependabotSettingsConfig(owner.Dependabot, repo.Dependabot),
 	}
 
 	return result

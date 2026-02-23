@@ -439,6 +439,14 @@ func promptSettingsConfig(p *prompter.Prompter) (*config.SettingsConfig, error) 
 	}
 	cfg.Dependabot.SecurityUpdates = &securityUpdates
 
+	// Pull request creation policy
+	prPolicies := []string{"all", "collaborators"}
+	prPolicyIdx, err := p.Select("Pull request creation policy:", "all", prPolicies)
+	if err != nil {
+		return nil, err
+	}
+	cfg.PullRequestCreationPolicy = prPolicies[prPolicyIdx]
+
 	return cfg, nil
 }
 
@@ -564,6 +572,9 @@ func generateConfigYAML(cfg *config.Config) string {
 		}
 		if cfg.Checks.Settings.AllowActionsToApprovePRs != nil {
 			sb.WriteString(fmt.Sprintf("    allow_actions_to_approve_prs: %t\n", *cfg.Checks.Settings.AllowActionsToApprovePRs))
+		}
+		if cfg.Checks.Settings.PullRequestCreationPolicy != "" {
+			sb.WriteString(fmt.Sprintf("    pull_request_creation_policy: \"%s\"\n", cfg.Checks.Settings.PullRequestCreationPolicy))
 		}
 		if cfg.Checks.Settings.DefaultBranch != "" {
 			sb.WriteString(fmt.Sprintf("    default_branch: \"%s\"\n", cfg.Checks.Settings.DefaultBranch))

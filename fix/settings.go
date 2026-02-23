@@ -41,6 +41,8 @@ func (f *SettingsFixer) Fix(ctx context.Context, issue checks.Issue) (*Result, e
 	switch setting {
 	case "actions_approve_prs":
 		return f.fixActionsApprove(issue)
+	case "pull_request_creation_policy":
+		return f.fixPullRequestCreationPolicy(issue)
 	case "dependabot_alerts":
 		return f.fixDependabotAlerts(issue)
 	case "dependabot_security_updates":
@@ -95,6 +97,22 @@ func (f *SettingsFixer) Fix(ctx context.Context, issue checks.Issue) (*Result, e
 
 	if err := f.client.UpdateRepository(req); err != nil {
 		return failedResult(issue, fmt.Errorf("failed to update repository: %w", err))
+	}
+
+	return successResult(issue)
+}
+
+func (f *SettingsFixer) fixPullRequestCreationPolicy(issue checks.Issue) (*Result, error) {
+	if f.config.PullRequestCreationPolicy == "" {
+		return failedResult(issue, errors.New("pull_request_creation_policy not configured"))
+	}
+
+	policy := f.config.PullRequestCreationPolicy
+	req := &github.RepoUpdateRequest{
+		PullRequestCreationPolicy: &policy,
+	}
+	if err := f.client.UpdateRepository(req); err != nil {
+		return failedResult(issue, fmt.Errorf("failed to update pull request creation policy: %w", err))
 	}
 
 	return successResult(issue)
