@@ -2,21 +2,21 @@ package github
 
 // Repository represents a GitHub repository
 type Repository struct {
-	Name                string `json:"name"`
-	FullName            string `json:"full_name"`
-	DefaultBranch       string `json:"default_branch"`
-	Archived            bool   `json:"archived"`
-	HasIssues           bool   `json:"has_issues"`
-	HasWiki             bool   `json:"has_wiki"`
-	HasProjects         bool   `json:"has_projects"`
-	HasDiscussions      bool   `json:"has_discussions"`
+	Name                      string `json:"name"`
+	FullName                  string `json:"full_name"`
+	DefaultBranch             string `json:"default_branch"`
+	Archived                  bool   `json:"archived"`
+	HasIssues                 bool   `json:"has_issues"`
+	HasWiki                   bool   `json:"has_wiki"`
+	HasProjects               bool   `json:"has_projects"`
+	HasDiscussions            bool   `json:"has_discussions"`
 	PullRequestCreationPolicy string `json:"pull_request_creation_policy"`
 	AllowMergeCommit          bool   `json:"allow_merge_commit"`
-	AllowSquashMerge    bool   `json:"allow_squash_merge"`
-	AllowRebaseMerge    bool   `json:"allow_rebase_merge"`
-	AllowAutoMerge      bool   `json:"allow_auto_merge"`
-	DeleteBranchOnMerge bool   `json:"delete_branch_on_merge"`
-	AllowUpdateBranch   bool   `json:"allow_update_branch"`
+	AllowSquashMerge          bool   `json:"allow_squash_merge"`
+	AllowRebaseMerge          bool   `json:"allow_rebase_merge"`
+	AllowAutoMerge            bool   `json:"allow_auto_merge"`
+	DeleteBranchOnMerge       bool   `json:"delete_branch_on_merge"`
+	AllowUpdateBranch         bool   `json:"allow_update_branch"`
 }
 
 // ActionsPermissions represents repository actions permissions
@@ -185,15 +185,15 @@ type RulesetCreateRequest struct {
 
 // RepoUpdateRequest represents a request to update repository settings
 type RepoUpdateRequest struct {
-	HasIssues           *bool `json:"has_issues,omitempty"`
-	HasWiki             *bool `json:"has_wiki,omitempty"`
-	HasProjects         *bool `json:"has_projects,omitempty"`
-	HasDiscussions      *bool `json:"has_discussions,omitempty"`
+	HasIssues                 *bool   `json:"has_issues,omitempty"`
+	HasWiki                   *bool   `json:"has_wiki,omitempty"`
+	HasProjects               *bool   `json:"has_projects,omitempty"`
+	HasDiscussions            *bool   `json:"has_discussions,omitempty"`
 	PullRequestCreationPolicy *string `json:"pull_request_creation_policy,omitempty"`
 	AllowMergeCommit          *bool   `json:"allow_merge_commit,omitempty"`
 	AllowSquashMerge          *bool   `json:"allow_squash_merge,omitempty"`
-	AllowRebaseMerge    *bool `json:"allow_rebase_merge,omitempty"`
-	AllowAutoMerge      *bool `json:"allow_auto_merge,omitempty"`
-	DeleteBranchOnMerge *bool `json:"delete_branch_on_merge,omitempty"`
-	AllowUpdateBranch   *bool `json:"allow_update_branch,omitempty"`
+	AllowRebaseMerge          *bool   `json:"allow_rebase_merge,omitempty"`
+	AllowAutoMerge            *bool   `json:"allow_auto_merge,omitempty"`
+	DeleteBranchOnMerge       *bool   `json:"delete_branch_on_merge,omitempty"`
+	AllowUpdateBranch         *bool   `json:"allow_update_branch,omitempty"`
 }
