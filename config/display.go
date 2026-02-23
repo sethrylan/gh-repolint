@@ -84,6 +84,14 @@ func displaySettingsConfig(w io.Writer, loaded *LoadedConfig, useColor bool, ind
 	displayBoolField(w, "discussions", cfg.Discussions, getBoolSource(repo, owner, "Discussions"), useColor, indent+2)
 	displayBoolField(w, "allow_actions_to_approve_prs", cfg.AllowActionsToApprovePRs, getBoolSource(repo, owner, "AllowActionsToApprovePRs"), useColor, indent+2)
 
+	if cfg.PullRequestCreationPolicy != "" {
+		source := SourceOwner
+		if repo != nil && repo.PullRequestCreationPolicy != "" {
+			source = SourceRepo
+		}
+		displayStringField(w, "pull_request_creation_policy", cfg.PullRequestCreationPolicy, source, useColor, indent+2)
+	}
+
 	if cfg.DefaultBranch != "" {
 		source := SourceOwner
 		if repo != nil && repo.DefaultBranch != "" {

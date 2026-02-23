@@ -225,7 +225,24 @@ func parseConfigBytes(data []byte) (*Config, error) {
 	if err := yaml.Unmarshal(data, &cfg); err != nil {
 		return nil, fmt.Errorf("invalid YAML: %w", err)
 	}
+	if err := validateConfig(&cfg); err != nil {
+		return nil, err
+	}
 	return &cfg, nil
+}
+
+// validateConfig validates parsed config values
+func validateConfig(cfg *Config) error {
+	if cfg.Checks.Settings != nil && cfg.Checks.Settings.PullRequestCreationPolicy != "" {
+		switch cfg.Checks.Settings.PullRequestCreationPolicy {
+		case "all", "collaborators":
+			// valid
+		default:
+			return fmt.Errorf("invalid pull_request_creation_policy: %q (must be \"all\" or \"collaborators\")",
+				cfg.Checks.Settings.PullRequestCreationPolicy)
+		}
+	}
+	return nil
 }
 
 // findGitRoot finds the root of the git repository

@@ -129,6 +129,17 @@ func (c *SettingsCheck) Run(ctx context.Context) ([]Issue, error) {
 		}
 	}
 
+	// Check pull request creation policy
+	if c.config.PullRequestCreationPolicy != "" && repo.PullRequestCreationPolicy != c.config.PullRequestCreationPolicy {
+		issues = append(issues, Issue{
+			Type:    c.Type(),
+			Name:    c.Name(),
+			Message: fmt.Sprintf("Pull request creation policy is '%s' but should be '%s'", repo.PullRequestCreationPolicy, c.config.PullRequestCreationPolicy),
+			Fixable: true,
+			Data:    map[string]string{DataKeySetting: "pull_request_creation_policy"},
+		})
+	}
+
 	// Check Dependabot settings
 	if c.config.Dependabot != nil {
 		dependabotIssues, err := c.checkDependabotSettings()

@@ -439,6 +439,14 @@ func promptSettingsConfig(p *prompter.Prompter) (*config.SettingsConfig, error) 
 	}
 	cfg.Dependabot.SecurityUpdates = &securityUpdates
 
+	// Pull request creation policy
+	prPolicies := []string{"all", "collaborators"}
+	prPolicyIdx, err := p.Select("Pull request creation policy:", "all", prPolicies)
+	if err != nil {
+		return nil, err
+	}
+	cfg.PullRequestCreationPolicy = prPolicies[prPolicyIdx]
+
 	return cfg, nil
 }
 
@@ -554,47 +562,50 @@ func generateConfigYAML(cfg *config.Config) string {
 	if cfg.Checks.Settings != nil {
 		sb.WriteString("  settings:\n")
 		if cfg.Checks.Settings.Issues != nil {
-			sb.WriteString(fmt.Sprintf("    issues: %t\n", *cfg.Checks.Settings.Issues))
+			fmt.Fprintf(&sb, "    issues: %t\n", *cfg.Checks.Settings.Issues)
 		}
 		if cfg.Checks.Settings.Wiki != nil {
-			sb.WriteString(fmt.Sprintf("    wiki: %t\n", *cfg.Checks.Settings.Wiki))
+			fmt.Fprintf(&sb, "    wiki: %t\n", *cfg.Checks.Settings.Wiki)
 		}
 		if cfg.Checks.Settings.Projects != nil {
-			sb.WriteString(fmt.Sprintf("    projects: %t\n", *cfg.Checks.Settings.Projects))
+			fmt.Fprintf(&sb, "    projects: %t\n", *cfg.Checks.Settings.Projects)
 		}
 		if cfg.Checks.Settings.AllowActionsToApprovePRs != nil {
-			sb.WriteString(fmt.Sprintf("    allow_actions_to_approve_prs: %t\n", *cfg.Checks.Settings.AllowActionsToApprovePRs))
+			fmt.Fprintf(&sb, "    allow_actions_to_approve_prs: %t\n", *cfg.Checks.Settings.AllowActionsToApprovePRs)
+		}
+		if cfg.Checks.Settings.PullRequestCreationPolicy != "" {
+			fmt.Fprintf(&sb, "    pull_request_creation_policy: \"%s\"\n", cfg.Checks.Settings.PullRequestCreationPolicy)
 		}
 		if cfg.Checks.Settings.DefaultBranch != "" {
-			sb.WriteString(fmt.Sprintf("    default_branch: \"%s\"\n", cfg.Checks.Settings.DefaultBranch))
+			fmt.Fprintf(&sb, "    default_branch: \"%s\"\n", cfg.Checks.Settings.DefaultBranch)
 		}
 		if cfg.Checks.Settings.Merge != nil {
 			sb.WriteString("    merge:\n")
 			m := cfg.Checks.Settings.Merge
 			if m.AllowMergeCommit != nil {
-				sb.WriteString(fmt.Sprintf("      allow_merge_commit: %t\n", *m.AllowMergeCommit))
+				fmt.Fprintf(&sb, "      allow_merge_commit: %t\n", *m.AllowMergeCommit)
 			}
 			if m.AllowSquashMerge != nil {
-				sb.WriteString(fmt.Sprintf("      allow_squash_merge: %t\n", *m.AllowSquashMerge))
+				fmt.Fprintf(&sb, "      allow_squash_merge: %t\n", *m.AllowSquashMerge)
 			}
 			if m.AllowRebaseMerge != nil {
-				sb.WriteString(fmt.Sprintf("      allow_rebase_merge: %t\n", *m.AllowRebaseMerge))
+				fmt.Fprintf(&sb, "      allow_rebase_merge: %t\n", *m.AllowRebaseMerge)
 			}
 			if m.AllowAutoMerge != nil {
-				sb.WriteString(fmt.Sprintf("      allow_auto_merge: %t\n", *m.AllowAutoMerge))
+				fmt.Fprintf(&sb, "      allow_auto_merge: %t\n", *m.AllowAutoMerge)
 			}
 			if m.DeleteBranchOnMerge != nil {
-				sb.WriteString(fmt.Sprintf("      delete_branch_on_merge: %t\n", *m.DeleteBranchOnMerge))
+				fmt.Fprintf(&sb, "      delete_branch_on_merge: %t\n", *m.DeleteBranchOnMerge)
 			}
 		}
 		if cfg.Checks.Settings.Dependabot != nil {
 			sb.WriteString("    dependabot:\n")
 			d := cfg.Checks.Settings.Dependabot
 			if d.Alerts != nil {
-				sb.WriteString(fmt.Sprintf("      alerts: %t\n", *d.Alerts))
+				fmt.Fprintf(&sb, "      alerts: %t\n", *d.Alerts)
 			}
 			if d.SecurityUpdates != nil {
-				sb.WriteString(fmt.Sprintf("      security_updates: %t\n", *d.SecurityUpdates))
+				fmt.Fprintf(&sb, "      security_updates: %t\n", *d.SecurityUpdates)
 			}
 		}
 		sb.WriteString("\n")
@@ -603,16 +614,16 @@ func generateConfigYAML(cfg *config.Config) string {
 	if cfg.Checks.Actions != nil {
 		sb.WriteString("  actions:\n")
 		if cfg.Checks.Actions.RequirePinnedVersions != nil {
-			sb.WriteString(fmt.Sprintf("    require_pinned_versions: %t\n", *cfg.Checks.Actions.RequirePinnedVersions))
+			fmt.Fprintf(&sb, "    require_pinned_versions: %t\n", *cfg.Checks.Actions.RequirePinnedVersions)
 		}
 		if cfg.Checks.Actions.RequireTimeout != nil {
-			sb.WriteString(fmt.Sprintf("    require_timeout: %t\n", *cfg.Checks.Actions.RequireTimeout))
+			fmt.Fprintf(&sb, "    require_timeout: %t\n", *cfg.Checks.Actions.RequireTimeout)
 		}
 		if cfg.Checks.Actions.MaxTimeoutMinutes != nil {
-			sb.WriteString(fmt.Sprintf("    max_timeout_minutes: %d\n", *cfg.Checks.Actions.MaxTimeoutMinutes))
+			fmt.Fprintf(&sb, "    max_timeout_minutes: %d\n", *cfg.Checks.Actions.MaxTimeoutMinutes)
 		}
 		if cfg.Checks.Actions.RequireMinimalPermissions != nil {
-			sb.WriteString(fmt.Sprintf("    require_minimal_permissions: %t\n", *cfg.Checks.Actions.RequireMinimalPermissions))
+			fmt.Fprintf(&sb, "    require_minimal_permissions: %t\n", *cfg.Checks.Actions.RequireMinimalPermissions)
 		}
 		sb.WriteString("\n")
 	}
@@ -620,16 +631,16 @@ func generateConfigYAML(cfg *config.Config) string {
 	if len(cfg.Checks.Rulesets) > 0 {
 		sb.WriteString("  rulesets:\n")
 		for _, rs := range cfg.Checks.Rulesets {
-			sb.WriteString(fmt.Sprintf("    - name: \"%s\"\n", rs.Name))
-			sb.WriteString(fmt.Sprintf("      reference: \"%s\"\n", rs.Reference))
+			fmt.Fprintf(&sb, "    - name: \"%s\"\n", rs.Name)
+			fmt.Fprintf(&sb, "      reference: \"%s\"\n", rs.Reference)
 		}
 	}
 
 	if len(cfg.Checks.Files) > 0 {
 		sb.WriteString("  files:\n")
 		for _, f := range cfg.Checks.Files {
-			sb.WriteString(fmt.Sprintf("    - name: \"%s\"\n", f.Name))
-			sb.WriteString(fmt.Sprintf("      reference: \"%s\"\n", f.Reference))
+			fmt.Fprintf(&sb, "    - name: \"%s\"\n", f.Name)
+			fmt.Fprintf(&sb, "      reference: \"%s\"\n", f.Reference)
 		}
 	}
 
